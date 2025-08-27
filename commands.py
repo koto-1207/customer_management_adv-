@@ -1,10 +1,10 @@
 from utils import get_valid_name, get_valid_age
-from config import users, User
+from config import get_all_users, create_user, find_user_by_name, delete_user
 
 
 # S 全てのユーザーの情報を出力
 def show_all():
-    for user in users:
+    for user in get_all_users():
         print(f"Name: {user.name} Age: {user.age}")
 
 
@@ -12,47 +12,46 @@ def show_all():
 def add_user():
     name = get_valid_name()
     age = get_valid_age()
-    if any(user.name == name for user in users):
+    if find_user_by_name(name):
         print(f"Duplicated user name {name}")
     else:
-        users.append(User(name, age))
+        create_user(name, age)
         print(f"Add new user: {name}")
 
 
 # F ユーザー検索機能
 def find_user():
-    find_user = input("User name > ")
-    found = False
-    for user in users:
-        if user.name == find_user:
-            print(f"Name: {user.name} Age: {user.age}")
-            found = True
-            break
-    if not found:
-        print(f"Sorry, {find_user} is not found")
+    name = input("User name > ")
+    user = find_user_by_name(name)
+
+    if user:
+        print(f"Name: {user.name} Age: {user.age}")
+
+    else:
+        print(f"Sorry, {name} is not found")
 
 
 # D 削除機能
 def delete_user_cmd():
-    del_user = input("User name >")
-    user_to_delete = next((u for u in users if u.name == del_user), None)
-    if user_to_delete:
-        users.remove(user_to_delete)
-        print(f"User {del_user} is deleted")
+    name = input("User name >")
+    if delete_user(name):
+        print(f"User {name} is deleted")
     else:
-        print(f"Sorry, {del_user} is not found")
+        print(f"Sorry, {name} is not found")
 
 
-# E 編集機能 途中！
+# E 編集機能
 def edit_user_info():
-    edit_user = input("User name > ")
-    user_to_edit = next((u for u in users if u.name == edit_user), None)
-    if user_to_edit:
-        update_name = get_valid_name(current_name=user_to_edit.name)
-        update_age = get_valid_age(current_age=user_to_edit.age)
-        user_to_edit.name = update_name
-        user_to_edit.age = update_age
-        print(f"Update user: {user_to_edit.name}")
+    name = input("User name > ")
+    user = find_user_by_name(name)
+    if user:
+        print()
+        update_name = get_valid_name(current_name=user.name)
+        update_age = get_valid_age(current_age=user.age)
+        user.name = update_name
+        user.age = update_age
+        user.save()
+        print(f"Update user: {user.name}")
 
     else:
-        print(f"Sorry, {edit_user} is not found")
+        print(f"Sorry, {name} is not found")

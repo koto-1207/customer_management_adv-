@@ -1,5 +1,5 @@
-from db_tool import users, User
-import commands
+from config import init_db
+from commands import show_all, add_user, find_user, delete_user_cmd, edit_user_info
 
 
 def show_menu():
@@ -9,6 +9,7 @@ def show_menu():
 
 
 def main():
+    init_db()
     show_menu()
     while True:
         print()
@@ -19,19 +20,19 @@ def main():
             break
 
         elif command == "S":
-            commands.show_all()
+            show_all()
 
         elif command == "A":
-            commands.add_user()
+            add_user()
 
         elif command == "F":
-            commands.find_user()
+            find_user()
 
         elif command == "D":
-            commands.delete_user_cmd()
+            delete_user_cmd()
 
         elif command == "E":
-            commands.edit_user_info()
+            edit_user_info()
 
         else:
             print(f"{command}: command not found")
