@@ -1,3 +1,9 @@
+def show_menu():
+    with open("menu.txt", "r") as f:
+        menu = f.read()
+        print(menu)
+
+
 def get_valid_name(current_name=None):
     while True:
         prompt = f"New user name ({current_name}) > " if current_name else "New user name > "

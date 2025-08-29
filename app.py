@@ -1,11 +1,6 @@
 from config import init_db
 from commands import show_all, add_user, find_user, delete_user_cmd, edit_user_info
-
-
-def show_menu():
-    with open("menu.txt", "r") as f:
-        menu = f.read()
-        print(menu)
+from utils import show_menu
 
 
 def main():
